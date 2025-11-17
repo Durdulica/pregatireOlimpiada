@@ -1,6 +1,7 @@
 #ifndef EXERCITII_H
 #define EXERCITII_H
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 /*
@@ -126,17 +127,50 @@ int cmmdc(int a, int b) {
     return cmmdc(b, a % b);
 }
 
+
 void ex3() {
     int n,x,y,ct=0;
     cin >> n >> x >> y;
 
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++) {
-            if((x - i == 1 || i - x == 1) && (y - j == 1 || j - y == 1)) {
+            if(x == i && y == j) {
+                continue;
+            }
+            int dx=abs(x-i), dy = abs(y-j);
+            if(cmmdc(dx,dy) == 1) {
                 ct++;
             }
         }
     }
-    cout << ct;
+    cout << ct << endl;
+}
+
+// Problema „Euro-dolar”
+// Ion are 100 de euro și un prieten care îl ajută să obțină ratele de schimb euro-dolar pentru următoarele n zile (n ≤ 100).
+// Pentru fiecare zi, se dau două numere D și E, ceea ce înseamnă că:
+// în ziua respectivă, cu 100 de euro se pot cumpăra D dolari;
+// iar cu E dolari se pot cumpăra 100 de euro.
+// Scrieți un program care să determine suma maximă (în euro) pe care Ion o poate acumula după n zile,
+// efectuând tranzacții euro-dolar (cumpără sau vinde în oricare zi).
+// Se citește n și apoi n perechi (D, E).
+
+void ex4() {
+    ifstream fin("D:/info/c++/clion/pregatireOlimpiada/file.in");
+    int n;
+    float depozit = 100, D,E;
+    fin >> n;
+    for(int i = 0; i < n; i++) {
+        fin >> D >> E;
+
+        if(D / E > 1) {
+            depozit = depozit * D / E;
+        }
+    }
+
+    cout << depozit << endl;
 }
 #endif //EXERCITII_H
+
+//d->90=>  100 euro=>90 dolari  1e=> 0.9d
+//e->120=> 120 dolari->100 euro 1d=>  5/6

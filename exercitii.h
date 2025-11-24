@@ -170,7 +170,108 @@ void ex4() {
 
     cout << depozit << endl;
 }
-#endif //EXERCITII_H
 
-//d->90=>  100 euro=>90 dolari  1e=> 0.9d
-//e->120=> 120 dolari->100 euro 1d=>  5/6
+// Problema „Șef”
+// O firmă face angajări.
+// Fiecărei persoane angajate îi corespunde un număr natural nenul, a cărui reprezentare binară ocupă 16 biți.
+// Acest număr reprezintă codul persoanei în ierarhia firmei.
+// Fiind date două numere a și b, se consideră că persoana a este „șeful” lui b dacă, pentru orice
+// poziție binară 0 a lui a, poziția corespunzătoare a lui b este 0.
+// (adică toate biții de 1 ai lui a se regăsesc și în b)
+// Evident, orice persoană este propriul ei șef.
+// Se citește n, un număr natural care reprezintă codul unei persoane.
+// Să se afișeze numărul șefului ei.
+// De exemplu, pentru n = 255 se va afișa 256.
+
+int toBinary(int n) {
+    int p = 1, rez = 0;
+    while(n) {
+        rez = rez + n % 2 * p;
+        p *= 10;
+        n /= 2;
+    }
+    return rez;
+}
+
+int binaryToDecimal(int n) {
+    int p = 1, rez = 0;
+    while(n) {
+        rez = rez + n % 10 * p;
+        p *= 2;
+        n /= 10;
+    }
+    return rez;
+}
+
+void ex5() {
+    int n, p = 1;
+    cin >> n;
+
+    while(p <= n) {
+        p *= 2;
+    }
+
+    cout << p;
+}
+
+//dreptunghi de suma maxima
+//fie A o matr. cu n linii si m coloana cu elem intregi (n,m <= 50)
+//Sa se det. o zona dreptunghiulara in matr. pt. care suma elem. din aceasta zona este max.
+//In cazul in care exista mai multe solutii, veti afisa o zona de arie maxima
+
+int chenarMin(int mat[50][50], int n, int m, int grad) {
+    int i1 = grad, j1 = grad, i2 = n - 1 - grad, j2 = m - 1 - grad;
+    int suma1 = 0, suma2 = 0, suma3 = 0, suma4 = 0;
+    for(int k = j1; k <= j2; k++) {
+        suma1 += mat[i1][k];
+    }
+    for(int k = i1+1; k <= i2; k++) {
+        suma2 += mat[k][j2];
+    }
+    for(int k = j2-1; k >= j1; k--) {
+        suma3 += mat[i2][k];
+    }
+    for(int k = i2-1; k > i1; k--) {
+        suma4 += mat[k][j1];
+    }
+    int rez = min(min(suma1, suma2), min(suma3, suma4));
+    if(rez == suma1) return 1;
+    if(rez == suma2) return 2;
+    if(rez == suma3) return 3;
+    if(rez == suma4) return 4;
+}
+
+void ex6() {
+    ifstream fin("D:/info/c++/clion/pregatireOlimpiada/file.in");
+    int mat[50][50];
+    int n, m;
+    fin >> n >> m;
+
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < m; j++) {
+            fin >> mat[i][j];
+        }
+    }
+
+    int p = chenarMin(mat, n, m, 0);
+    int i1 = 0, i2 = n, j1 = 0, j2 = m;
+    if(p == 1) {
+        i1++;
+    }
+    if(p == 2) {
+        j2--;
+    }
+    if(p == 3) {
+        i2--;
+    }
+    if(p == 4) {
+        j1++;
+    }
+    for(int i = i1; i < i2; i++) {
+        for(int j = j1; j < j2; j++) {
+            cout << mat[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+#endif //EXERCITII_H

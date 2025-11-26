@@ -274,4 +274,54 @@ void ex6() {
         cout << endl;
     }
 }
+
+void ex6Optim() {
+    int n, m;
+    int sum[100][100], a[100][100];
+
+    ifstream fin("D:/info/c++/clion/pregatireOlimpiada/file.in");
+    fin >> n >> m;
+    for(int i = 1; i <= n; i++) {
+        for(int j = 1; j <= m; j++) {
+            fin >> a[i][j];
+        }
+    }
+    int smax = a[0][0], x1max = 0, x2max = 0, y1max = 0, y2max = 0;
+
+    for(int x1 = 1; x1 <= n; x1++) {
+        for(int y1 = 1; y1 <= m; y1++) {
+            for(int i = 1; i <= x1; i++) {
+                for(int j = 1; j <= y1; j++) {
+                    sum[x1][y1]+=a[i][j];
+                }
+            }
+        }
+    }
+
+    for(int x1 = 1; x1 <= n; x1++){
+        for(int y1 = 1; y1 <=m; y1++) {
+            for(int x2 = x1; x2 <= n; x2++) {
+                for(int y2 = y1; y2 <= m; y2++) {
+                    int s = sum[x2][y2] - sum[x1-1][y2] - sum[x2][y1-1] + sum[x1-1][y1-1];
+                    if(s > smax) {
+                        smax = s;
+                        x1max = x1;
+                        y1max = y1;
+                        x2max = x2;
+                        y2max = y2;
+                    }else if(s == smax && (x2-x1+1)*(y2-y1+1) > (x2max-x1max+1)*(y2max-y1max+1)) {
+                        x1max = x1;
+                        y1max = y1;
+                        x2max = x2;
+                        y2max = y2;
+                    }
+                }
+            }
+        }
+    }
+
+    cout << smax << " " << (x2max-x1max+1)*(y2max-y1max+1) << endl;
+    cout << x1max << ", " << y1max << endl;
+    cout << x2max << ", " << y2max << endl;
+}
 #endif //EXERCITII_H

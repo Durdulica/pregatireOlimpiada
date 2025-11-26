@@ -1,5 +1,6 @@
 #include "exercitii.h"
 
 int main() {
-    ex4();
+    // ex6Optim();
+    cout << (char)128;
 }
